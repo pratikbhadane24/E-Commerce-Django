@@ -4,8 +4,8 @@ from django.contrib.auth.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
 
-class TaggedItem(models.Model):
-    user = models.ForeignKey(User   , on_delete=models.CASCADE)
+class LikedItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
