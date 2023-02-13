@@ -84,12 +84,8 @@ WSGI_APPLICATION = 'storefront.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ecommerceDB_effectnews',
-        'PORT': '3307',
-        'HOST': 'gmx.h.filess.io',
-        'USER': 'ecommerceDB_effectnews',
-        'PASSWORD': ''
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
