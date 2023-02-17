@@ -29,4 +29,9 @@ class ProductAdmin(admin.ModelAdmin):
     ordering = ['first_name', 'last_name']
 
 
+@admin.register(models.Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'placed_at', 'customer']
+
+
 admin.site.register(models.Collection)
