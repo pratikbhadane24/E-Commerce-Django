@@ -27,7 +27,7 @@ class CollectionAdmin(admin.ModelAdmin):
     def product_count(self, collection):
         url = (reverse('admin:store_product_changelist')
                + '?' + urlencode({'collection_id': str(collection.id)}))
-        return format_html('<a href="{}">{}</a>', url, collection.product_count)
+        return format_html('<a href="{}">{} Products</a>', url, collection.product_count)
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(product_count=Count('product'))
