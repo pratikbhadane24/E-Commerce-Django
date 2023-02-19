@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Product, Collection
-from django.db.models import Count
+from django.db.models.aggregates import Count
 from .serializers import ProductSerializer, CollectionSerializer
 # Create your views here.
 
@@ -19,18 +19,17 @@ def product_list(request):
         serializer = ProductSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        # serializer.validated_data
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def product_details(request, id):
+def product_detail(request, id):
     product = get_object_or_404(Product, pk=id)
     if request.method == 'GET':
         serializer = ProductSerializer(product)
         return Response(serializer.data)
     elif request.method == 'PUT':
-        serializer = ProductSerializer(data=request.data)
+        serializer = ProductSerializer(product, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
@@ -46,26 +45,24 @@ def collection_list(request):
     if request.method == 'GET':
         queryset = Collection.objects.annotate(
             products_count=Count('products')).all()
-        serializer = CollectionSerializer(
-            queryset, many=True, context={'request': request})
+        serializer = CollectionSerializer(queryset, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = CollectionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        # serializer.validated_data
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def collection_details(request, pk):
+def collection_detail(request, pk):
     collection = get_object_or_404(Collection.objects.annotate(
         products_count=Count('products')), pk=pk)
     if request.method == 'GET':
         serializer = CollectionSerializer(collection)
         return Response(serializer.data)
     elif request.method == 'PUT':
-        serializer = CollectionSerializer(data=request.data)
+        serializer = CollectionSerializer(collection, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)

@@ -20,6 +20,7 @@ class InventoryFilter(admin.SimpleListFilter):
 
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['featured_product']
     list_display = ['title', 'products_count']
     search_fields = ['title']
 
@@ -47,7 +48,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_per_page = 10
     list_select_related = ['collection']
     search_fields = ['title']
-    ordering = ['id']
 
     def collection_title(self, product):
         return product.collection.title

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from decimal import Decimal
-from store.models import Collection, Product
+from store.models import Product, Collection
 
 
 class CollectionSerializer(serializers.ModelSerializer):
@@ -8,9 +8,6 @@ class CollectionSerializer(serializers.ModelSerializer):
         model = Collection
         fields = ['id', 'title', 'products_count']
     products_count = serializers.IntegerField()
-
-    # def get_products_count(self, collection):
-    #     return collection.featured_product
 
 
 class ProductSerializer(serializers.ModelSerializer):
