@@ -23,8 +23,10 @@ def product_details(request, id):
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = ProductSerializer(data=request.data)
-        # serializer.validated_data 
+        serializer.is_valid(raise_exception=True)
+        serializer.validated_data
         return Response('OK')
+
 
 @api_view()
 def collection_details(request, pk):
