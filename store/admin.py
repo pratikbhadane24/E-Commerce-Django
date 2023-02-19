@@ -20,17 +20,17 @@ class InventoryFilter(admin.SimpleListFilter):
 
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
-    list_display = ['title', 'product_count']
+    list_display = ['title', 'products_count']
     search_fields = ['title']
 
-    @admin.display(ordering='product_count')
-    def product_count(self, collection):
+    @admin.display(ordering='products_count')
+    def products_count(self, collection):
         url = (reverse('admin:store_product_changelist')
                + '?' + urlencode({'collection_id': str(collection.id)}))
-        return format_html('<a href="{}">{} Products</a>', url, collection.product_count)
+        return format_html('<a href="{}">{} Products</a>', url, collection.products_count)
 
     def get_queryset(self, request):
-        return super().get_queryset(request).annotate(product_count=Count('product'))
+        return super().get_queryset(request).annotate(products_count=Count('products'))
 
 
 @admin.register(models.Product)
